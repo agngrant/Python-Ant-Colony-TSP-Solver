@@ -1,5 +1,5 @@
 from ant import Ant
-from threading import Lock, Condition
+#from threading import Lock, Condition
 
 import random
 import sys
@@ -12,7 +12,7 @@ class AntColony:
         self.Alpha = 0.1
 
         # condition var
-        self.cv = Condition()
+        #self.cv = Condition()
 
         self.reset()
 
@@ -28,17 +28,17 @@ class AntColony:
 
         while self.iter_counter < self.num_iterations:
             self.iteration()
-
-            self.cv.acquire()
+            #self.cv.acquire()
             # wait until update calls notify()
-            self.cv.wait()
+            #self.cv.wait()
 
-            lock = self.graph.lock
-            lock.acquire()
+            #lock = self.graph.lock
+            #lock.acquire()
             self.global_updating_rule()
-            lock.release()
+            #lock.release()
 
-            self.cv.release()
+            #self.cv.release()
+        print "Out iteration loop"
 
     # one iteration involves spawning a number of ant threads
     def iteration(self):
@@ -48,7 +48,7 @@ class AntColony:
         print "iter_counter = %s" % (self.iter_counter,)
         for ant in self.ants:
             print "starting ant = %s" % (ant.ID)
-            ant.start()
+            ant.run()
 
     def num_ants(self):
         return len(self.ants)
@@ -61,8 +61,8 @@ class AntColony:
 
     # called by individual ants
     def update(self, ant):
-        lock = Lock()
-        lock.acquire()
+        #lock = Lock()
+        #lock.acquire()
 
         #outfile = open("results.dat", "a")
 
@@ -82,11 +82,11 @@ class AntColony:
             self.avg_path_cost /= len(self.ants)
             print "Best: %s, %s, %s, %s" % (self.best_path_vec, self.best_path_cost, self.iter_counter, self.avg_path_cost,)
             #outfile.write("\n%s\t%s\t%s" % (self.iter_counter, self.avg_path_cost, self.best_path_cost,))
-            self.cv.acquire()
-            self.cv.notify()
-            self.cv.release()
+         #   self.cv.acquire()
+         #   self.cv.notify()
+         #   self.cv.release()
         #outfile.close()
-        lock.release()
+        #lock.release()
 
     def done(self):
         return self.iter_counter == self.num_iterations

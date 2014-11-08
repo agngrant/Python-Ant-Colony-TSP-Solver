@@ -39,8 +39,10 @@ if __name__ == "__main__":
         for i in range(0, num_repetitions):
             graph.reset_tau()
             ant_colony = AntColony(graph, num_ants, num_iterations)
+            print "Colony Started"
             ant_colony.start()
             if ant_colony.best_path_cost < best_path_cost:
+                print "Colony Path"
                 best_path_vec = ant_colony.best_path_vec
                 best_path_cost = ant_colony.best_path_cost
 
