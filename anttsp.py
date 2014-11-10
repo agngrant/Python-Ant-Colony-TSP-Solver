@@ -13,9 +13,9 @@ if __name__ == "__main__":
         num_nodes = int(sys.argv[1])
 
     if num_nodes <= 10:
-        num_ants = 20
+        num_ants = 5
         num_iterations = 12
-        num_repetitions = 1
+        num_repetitions = 5
     else:
         num_ants = 28
         num_iterations = 20
@@ -30,13 +30,14 @@ if __name__ == "__main__":
         for i in range(0, num_nodes):
             cost_mat[i] = cost_mat[i][0:num_nodes]
 
-    print cost_mat
+    #print cost_mat
 
     try:
         graph = AntGraph(num_nodes, cost_mat)
         best_path_vec = None
         best_path_cost = sys.maxint
         for i in range(0, num_repetitions):
+            print "Repetition %s" % i
             graph.reset_tau()
             ant_colony = AntColony(graph, num_ants, num_iterations)
             print "Colony Started"

@@ -20,3 +20,4 @@ python anttsp.py 14
 
 Other values <= 14 tested as well
 
+Modified to not use threading - found issues running in Python 2.7.8 & Mac OS X 10.9.5 which stopping the program from terminating due to a lock/condition release issue.

@@ -9,7 +9,7 @@ class AntColony:
         self.graph = graph
         self.num_ants = num_ants
         self.num_iterations = num_iterations
-        self.Alpha = 0.1
+        self.Alpha = 0.2
 
         # condition var
         #self.cv = Condition()
