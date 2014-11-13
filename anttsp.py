@@ -21,7 +21,7 @@ if __name__ == "__main__":
         num_iterations = 20
         num_repetitions = 1
 
-    stuff = pickle.load(open("citiesAndDistances.pickled", "r"))
+    stuff = pickle.load(open("data/uktemp.pickled", "r"))
     cities = stuff[0]
     cost_mat = stuff[1]
 
