@@ -9,7 +9,7 @@ import traceback
 num_nodes = 10
 
 if __name__ == "__main__":   
-    if len(sys.argv) > 2 and sys.argv[1]:
+    if len(sys.argv) > 3 and sys.argv[1]:
         num_nodes = int(sys.argv[1])
 
     if num_nodes <= 10:
@@ -51,10 +51,13 @@ if __name__ == "__main__":
         print "                     Results                                "
         print "------------------------------------------------------------"
         print "\nBest path = %s" % (best_path_vec,)
+        city_vec = []
         for node in best_path_vec:
             print cities[node] + " ",
+            city_vec.append(cities[node])
         print "\nBest path cost = %s\n" % (best_path_cost,)
-    
+        results=[best_path_vec,city_vec,best_path_cost]
+        pickle.dump(results,open(sys.argv[3],'w+'))
     except Exception, e:
         print "exception: " + str(e)
         traceback.print_exc()
