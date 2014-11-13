@@ -17,7 +17,7 @@ class Ant():
         self.path_cost = 0
 
         # same meaning as in standard equations
-        self.Beta = 1.1
+        self.Beta = 1.0
         #self.Q0 = 1  # Q0 = 1 works just fine for 10 city case (no explore)
         self.Q0 = 0.5
         self.Rho = 0.99

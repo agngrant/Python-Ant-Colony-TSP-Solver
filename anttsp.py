@@ -9,19 +9,19 @@ import traceback
 num_nodes = 10
 
 if __name__ == "__main__":   
-    if len(sys.argv) > 1 and sys.argv[1]:
+    if len(sys.argv) > 2 and sys.argv[1]:
         num_nodes = int(sys.argv[1])
 
     if num_nodes <= 10:
-        num_ants = 5
+        num_ants = 20
         num_iterations = 12
-        num_repetitions = 5
+        num_repetitions = 1
     else:
         num_ants = 28
         num_iterations = 20
         num_repetitions = 1
 
-    stuff = pickle.load(open("data/uktemp.pickled", "r"))
+    stuff = pickle.load(open(sys.argv[2], "r"))
     cities = stuff[0]
     cost_mat = stuff[1]
 
