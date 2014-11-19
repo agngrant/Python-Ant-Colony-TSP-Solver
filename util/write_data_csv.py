@@ -19,4 +19,3 @@ def process(infilename, outfilename):
     csvfile.close()
 
 main()
-

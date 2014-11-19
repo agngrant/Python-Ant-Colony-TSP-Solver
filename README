@@ -22,3 +22,5 @@ python anttsp.py <cities> <city data file> <output file>
 
 
 Modified to not use threading - found issues running in Python 2.7.8 & Mac OS X 10.9.5 which stopping the program from terminating due to a lock/condition release issue.
+
+Note: To use the utilities in the util directory the python package: argparse needs to be installed in your Python environment.
