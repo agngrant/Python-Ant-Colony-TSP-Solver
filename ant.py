@@ -1,11 +1,9 @@
 import math
 import random
 import sys
-#from threading import *
 
 class Ant():
     def __init__(self, ID, start_node, colony):
- #       Thread.__init__(self)
         self.ID = ID
         self.start_node = start_node
         self.colony = colony
@@ -18,7 +16,7 @@ class Ant():
 
         # same meaning as in standard equations
         self.Beta = 1.0
-        #self.Q0 = 1  # Q0 = 1 works just fine for 10 city case (no explore)
+        # Q0 = 1 works just fine for 10 city case (no explore)
         self.Q0 = 0.5
         self.Rho = 0.99
 
@@ -35,12 +33,10 @@ class Ant():
         for i in range(0, self.graph.num_nodes):
             self.path_mat.append([0]*self.graph.num_nodes)
 
-    # overide Thread's run()
     def run(self):
         graph = self.colony.graph
         while not self.end():
-            # we need exclusive access to the graph
-            #graph.lock.acquire()
+
             new_node = self.state_transition_rule(self.curr_node)
             self.path_cost += graph.delta(self.curr_node, new_node)
 
@@ -48,9 +44,8 @@ class Ant():
             self.path_mat[self.curr_node][new_node] = 1  #adjacency matrix representing path
 
             print "Ant %s : %s, %s" % (self.ID, self.path_vec, self.path_cost,)
-            
+
             self.local_updating_rule(self.curr_node, new_node)
-            #graph.lock.release()
 
             self.curr_node = new_node
 
@@ -61,11 +56,11 @@ class Ant():
         self.colony.update(self)
         print "Ant thread %s terminating." % (self.ID,)
 
-        # allows thread to be restarted (calls Thread.__init__)
+        # allows ant to be restarted
         self.__init__(self.ID, self.start_node, self.colony)
 
     def end(self):
-        return not self.nodes_to_visit 
+        return not self.nodes_to_visit
 
     # described in report -- determines next node to visit after curr_node
     def state_transition_rule(self, curr_node):
@@ -103,22 +98,22 @@ class Ant():
             print "avg = %s" % (avg,)
 
             for node in self.nodes_to_visit.values():
-                p = graph.tau(curr_node, node) * math.pow(graph.etha(curr_node, node), self.Beta) 
+                p = graph.tau(curr_node, node) * math.pow(graph.etha(curr_node, node), self.Beta)
                 if p > avg:
                     print "p = %s" % (p,)
                     max_node = node
 
             if max_node == -1:
                 max_node = node
-        
+
         if max_node < 0:
             raise Exception("max_node < 0")
 
         del self.nodes_to_visit[max_node]
-        
+
         return max_node
 
-    # phermone update rule for indiv ants
+    # pheromone update rule for individual ants
     def local_updating_rule(self, curr_node, next_node):
         graph = self.colony.graph
         val = (1 - self.Rho) * graph.tau(curr_node, next_node) + (self.Rho * graph.tau0)
