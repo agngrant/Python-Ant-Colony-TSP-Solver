@@ -5,12 +5,12 @@ import pickle
 import sys
 import traceback
 
-#default
-num_nodes = 10
+def main(argv):
+    #default
+    num_nodes = 10
 
-if __name__ == "__main__":   
-    if len(sys.argv) > 3 and sys.argv[1]:
-        num_nodes = int(sys.argv[1])
+    if len(argv) >= 3 and argv[0]:
+        num_nodes = int(argv[0])
 
     if num_nodes <= 10:
         num_ants = 20
@@ -21,7 +21,7 @@ if __name__ == "__main__":
         num_iterations = 20
         num_repetitions = 1
 
-    stuff = pickle.load(open(sys.argv[2], "r"))
+    stuff = pickle.load(open(argv[1], "r"))
     cities = stuff[0]
     cost_mat = stuff[1]
 
@@ -57,7 +57,11 @@ if __name__ == "__main__":
             city_vec.append(cities[node])
         print "\nBest path cost = %s\n" % (best_path_cost,)
         results=[best_path_vec,city_vec,best_path_cost]
-        pickle.dump(results,open(sys.argv[3],'w+'))
+        pickle.dump(results,open(argv[2],'w+'))
     except Exception, e:
         print "exception: " + str(e)
         traceback.print_exc()
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
