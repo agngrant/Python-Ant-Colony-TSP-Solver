@@ -1,12 +1,13 @@
-from antcolony import AntColony
-from antgraph import AntGraph
-
 import pickle
 import sys
 import traceback
 
+from antcolony import AntColony
+from antgraph import AntGraph
+
+
 def main(argv):
-    #default
+    # default
     num_nodes = 10
 
     if len(argv) >= 3 and argv[0]:
@@ -56,8 +57,8 @@ def main(argv):
             print cities[node] + " ",
             city_vec.append(cities[node])
         print "\nBest path cost = %s\n" % (best_path_cost,)
-        results=[best_path_vec,city_vec,best_path_cost]
-        pickle.dump(results,open(argv[2],'w+'))
+        results = [best_path_vec, city_vec, best_path_cost]
+        pickle.dump(results, open(argv[2], 'w+'))
     except Exception, e:
         print "exception: " + str(e)
         traceback.print_exc()

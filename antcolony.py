@@ -1,8 +1,9 @@
 from ant import Ant
-#from threading import Lock, Condition
+# from threading import Lock, Condition
 
 import random
 import sys
+
 
 class AntColony:
     def __init__(self, graph, num_ants, num_iterations):
@@ -10,16 +11,12 @@ class AntColony:
         self.num_ants = num_ants
         self.num_iterations = num_iterations
         self.Alpha = 0.1
-
-        # condition var
-        #self.cv = Condition()
-
         self.reset()
 
     def reset(self):
         self.best_path_cost = sys.maxint
         self.best_path_vec = None
-        self.best_path_mat  = None
+        self.best_path_mat = None
         self.last_best_path_iteration = 0
 
     def start(self):
@@ -28,17 +25,7 @@ class AntColony:
 
         while self.iter_counter < self.num_iterations:
             self.iteration()
-            #self.cv.acquire()
-            # wait until update calls notify()
-            #self.cv.wait()
-
-            #lock = self.graph.lock
-            #lock.acquire()
             self.global_updating_rule()
-            #lock.release()
-
-            #self.cv.release()
-        print "Out iteration loop"
 
     # one iteration involves spawning a number of ant threads
     def iteration(self):
@@ -61,10 +48,6 @@ class AntColony:
 
     # called by individual ants
     def update(self, ant):
-        #lock = Lock()
-        #lock.acquire()
-
-        #outfile = open("results.dat", "a")
 
         print "Update called by %s" % (ant.ID,)
         self.ant_counter += 1
@@ -80,13 +63,9 @@ class AntColony:
 
         if self.ant_counter == len(self.ants):
             self.avg_path_cost /= len(self.ants)
-            print "Best: %s, %s, %s, %s" % (self.best_path_vec, self.best_path_cost, self.iter_counter, self.avg_path_cost,)
-            #outfile.write("\n%s\t%s\t%s" % (self.iter_counter, self.avg_path_cost, self.best_path_cost,))
-         #   self.cv.acquire()
-         #   self.cv.notify()
-         #   self.cv.release()
-        #outfile.close()
-        #lock.release()
+            print "Best: %s, %s, %s, %s" % (
+            self.best_path_vec, self.best_path_cost, self.iter_counter, self.avg_path_cost,)
+
 
     def done(self):
         return self.iter_counter == self.num_iterations
@@ -98,7 +77,7 @@ class AntColony:
         for i in range(0, self.num_ants):
             ant = Ant(i, random.randint(0, self.graph.num_nodes - 1), self)
             ants.append(ant)
-        
+
         return ants
 
     # changes the tau matrix based on evaporation/deposition 

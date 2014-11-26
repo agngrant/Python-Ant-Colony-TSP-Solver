@@ -1,4 +1,4 @@
-#from threading import Lock
+# from threading import Lock
 
 class AntGraph:
     def __init__(self, num_nodes, delta_mat, tau_mat=None):
@@ -7,14 +7,13 @@ class AntGraph:
             raise Exception("len(delta) != num_nodes")
 
         self.num_nodes = num_nodes
-        self.delta_mat = delta_mat # matrix of node distance deltas
- #       self.lock = Lock()
+        self.delta_mat = delta_mat  # matrix of node distance deltas
 
         # tau mat contains the amount of phermone at node x,y
         if tau_mat is None:
             self.tau_mat = []
             for i in range(0, num_nodes):
-                self.tau_mat.append([0]*num_nodes)
+                self.tau_mat.append([0] * num_nodes)
 
     def delta(self, r, s):
         return self.delta_mat[r][s]
@@ -26,16 +25,10 @@ class AntGraph:
     def etha(self, r, s):
         return 1.0 / self.delta(r, s)
 
-    # inner locks most likely not necessary
     def update_tau(self, r, s, val):
-  #      lock = Lock()
-   #     lock.acquire()
         self.tau_mat[r][s] = val
-    #    lock.release()
 
     def reset_tau(self):
-     #   lock = Lock()
-      #  lock.acquire()
         avg = self.average_delta()
 
         # initial tau 
@@ -47,7 +40,6 @@ class AntGraph:
         for r in range(0, self.num_nodes):
             for s in range(0, self.num_nodes):
                 self.tau_mat[r][s] = self.tau0
-       # lock.release()
 
     # average delta in delta matrix
     def average_delta(self):

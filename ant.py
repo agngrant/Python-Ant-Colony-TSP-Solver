@@ -1,6 +1,6 @@
 import math
 import random
-import sys
+
 
 class Ant():
     def __init__(self, ID, start_node, colony):
@@ -31,17 +31,16 @@ class Ant():
         self.path_mat = []
 
         for i in range(0, self.graph.num_nodes):
-            self.path_mat.append([0]*self.graph.num_nodes)
+            self.path_mat.append([0] * self.graph.num_nodes)
 
     def run(self):
         graph = self.colony.graph
         while not self.end():
-
             new_node = self.state_transition_rule(self.curr_node)
             self.path_cost += graph.delta(self.curr_node, new_node)
 
             self.path_vec.append(new_node)
-            self.path_mat[self.curr_node][new_node] = 1  #adjacency matrix representing path
+            self.path_mat[self.curr_node][new_node] = 1  # adjacency matrix representing path
 
             print "Ant %s : %s, %s" % (self.ID, self.path_vec, self.path_cost,)
 
