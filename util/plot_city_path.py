@@ -7,7 +7,41 @@ import matplotlib.pyplot as plt
 
 
 def main(argv):
-    print argv
+    """
+    Plots a path between points onto a map defined by a config file.
+    Intended to be called by another python module.
+    Usage: plot_city_path.py <point coordinates file> <map properties file> <city path list>
+
+    If the third argument is omitted a basic map will be drawn.
+
+    Point Positions should have a point name, latitude and longitude.
+
+    Map Properties file should be of the format:
+        [figure]
+            height=12
+            width=5
+        [map]
+            projection=merc
+            lat_0=55.9
+            lon_0=-3.17
+            resolution=h
+            area_thresh=0.1
+            llcrnrlon=-5
+            llcrnrlat=55
+            urcrnrlon=-1.8
+            urcrnrlat=58
+
+    figure defines the size of the plot.
+
+    map defines the drawn map.
+    See the basemap documentation for the parameters listed in full.
+
+    Keyword arguments:
+
+    args -- list of arguments. This must have three elements,
+    the point positions file name, map properties file name and a list of point identifiers.
+    """
+
     config = ConfigParser.RawConfigParser()
     config.read(argv[1])
 
@@ -50,7 +84,7 @@ def main(argv):
 
         map.plot(x, y, 'D-', markersize=10, linewidth=1, color='k', markerfacecolor='b')
 
-        plt.show()
+    plt.show()
 
 
 if __name__ == "__main__":
