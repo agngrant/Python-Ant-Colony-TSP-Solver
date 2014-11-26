@@ -7,6 +7,26 @@ from antgraph import AntGraph
 
 
 def main(argv):
+    """
+    Program to show a possible approach to the Travelling Salesman Problem using Ant Colony Optimization
+
+    To use the anttsp.py from the command line:
+    Useage: python anttsp.py <cities> <city data file> <output file>
+
+    :param argv - should contain 3 elements, a number of cities to visit, a city data file and a target output
+
+    The number of cities should be a non-negative integer equal to or less than the number of cities in the data file.
+    The function will use the first n cities in the data file.
+
+    The data file should be a pickled data file of the form
+    [[cityA,cityB,...cityN], [[distanceAA, distanceAB..distanceAN],[distanceBA, distanceBB,.. distanceBN]]]
+
+    This is a list composed of a list of city names and a list of lists represents the NxN array of distances between
+    cities.
+
+    The output file should be a target space to write the output information to, this will be a pickled form of:
+    [[list of graph node indices], [list of node names], path cost]
+    """
     # default
     num_nodes = 10
 
