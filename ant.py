@@ -3,6 +3,14 @@ import random
 
 
 class Ant():
+    """
+    Ant class which navigates a graph using a pheromone based choice mechanism.
+
+    Requires an Identifier, start position in graph and an ant colony containing the graph.
+
+    Provided by antgraph and antcolony
+    """
+
     def __init__(self, ID, start_node, colony):
         self.ID = ID
         self.start_node = start_node
@@ -34,6 +42,15 @@ class Ant():
             self.path_mat.append([0] * self.graph.num_nodes)
 
     def run(self):
+        """
+        Run function which directs the ant on a complete circuit of the graph.
+
+        Will start and end at the defined starting position for the ant and will
+        visit each other graph node once.
+
+        When completed the ant will update the colony and the pheromone trails will
+        be updated in the process.
+        """
         graph = self.colony.graph
         while not self.end():
             new_node = self.state_transition_rule(self.curr_node)
@@ -59,10 +76,24 @@ class Ant():
         self.__init__(self.ID, self.start_node, self.colony)
 
     def end(self):
+        """
+        Determines if an ant has visited everywhere.
+
+        :return: true if no more places to visit, false otherwise
+        """
         return not self.nodes_to_visit
 
-    # described in report -- determines next node to visit after curr_node
+
     def state_transition_rule(self, curr_node):
+        """
+        Function to determine which location to visit next.
+
+        Can be exploitation or exploration.
+
+        See the Ant Colony Optimization methodology papers
+        :param curr_node: - current location of the ant
+        :return: returns the next node to visit based on the decision rules.
+        """
         graph = self.colony.graph
         q = random.random()
         max_node = -1
@@ -112,8 +143,13 @@ class Ant():
 
         return max_node
 
-    # pheromone update rule for individual ants
+
     def local_updating_rule(self, curr_node, next_node):
+        """
+        Updates the pheromone trail between two nodes
+        :param curr_node: start node
+        :param next_node: node being visited
+        """
         graph = self.colony.graph
         val = (1 - self.Rho) * graph.tau(curr_node, next_node) + (self.Rho * graph.tau0)
         graph.update_tau(curr_node, next_node, val)
