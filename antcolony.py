@@ -1,12 +1,29 @@
-from ant import Ant
-# from threading import Lock, Condition
-
 import random
 import sys
 
+from ant import Ant
+
 
 class AntColony:
+    """
+    AntColony represent the graph and collection of ants which will traverse the graph.
+
+    This uses the antgraph and ant python files.
+
+    The colony will operate through the constructor and start methods.
+
+    At any point in its operation, after start has been initiated,
+    the colony will hold a best path vector and the cost/distance value for that vector.
+    """
+
     def __init__(self, graph, num_ants, num_iterations):
+        """
+        Create ant colony with a given graph representing the distances between nodes, the number of ants to use and
+        the number of times to run through the population of ants.
+        :param graph: distance nxn matrix
+        :param num_ants: ant population size
+        :param num_iterations: times to run over the population
+        """
         self.graph = graph
         self.num_ants = num_ants
         self.num_iterations = num_iterations
@@ -14,12 +31,19 @@ class AntColony:
         self.reset()
 
     def reset(self):
+        """
+        Resets the colony values to default starting state.
+        """
         self.best_path_cost = sys.maxint
         self.best_path_vec = None
         self.best_path_mat = None
         self.last_best_path_iteration = 0
 
     def start(self):
+        """
+        Function to begin the ant movements across the graph - this will create the ants and run the population over the
+        graph. It will run through the population until it has completed num_iterations iterations.
+        """
         self.ants = self.create_ants()
         self.iter_counter = 0
 
@@ -27,8 +51,13 @@ class AntColony:
             self.iteration()
             self.global_updating_rule()
 
-    # one iteration involves spawning a number of ant threads
     def iteration(self):
+        """
+        Runs an iteration of the ant population traversing the graph.
+
+        Looping over the ant population this will call the run function on each ant.
+        :return:
+        """
         self.avg_path_cost = 0
         self.ant_counter = 0
         self.iter_counter += 1
@@ -38,17 +67,34 @@ class AntColony:
             ant.run()
 
     def num_ants(self):
+        """
+        Returns the number of ants in the population.
+        :return: number value of the population
+        """
         return len(self.ants)
 
     def num_iterations(self):
+        """
+        Returns the number of iterations the colony will perform when initiated
+        :return: number vlaue of iterations
+        """
         return self.num_iterations
 
     def iteration_counter(self):
+        """
+        returns the current iteration number
+        :return: number value of current iteration
+        """
         return self.iter_counter
 
     # called by individual ants
     def update(self, ant):
-
+        """
+        Method for an ant to call to update the current best path information.
+        This can if the ant has a better path update the best_path_cost, best_path_mat, best_path_vec values.
+        :param ant: ant which is calling the update method.
+        :return:
+        """
         print "Update called by %s" % (ant.ID,)
         self.ant_counter += 1
 
@@ -64,14 +110,21 @@ class AntColony:
         if self.ant_counter == len(self.ants):
             self.avg_path_cost /= len(self.ants)
             print "Best: %s, %s, %s, %s" % (
-            self.best_path_vec, self.best_path_cost, self.iter_counter, self.avg_path_cost,)
+                self.best_path_vec, self.best_path_cost, self.iter_counter, self.avg_path_cost,)
 
 
     def done(self):
+        """
+        returns a true/false result for if the number of iterations is equal to the num_iterations value.
+        :return: boolean true if complete, false otherwise
+        """
         return self.iter_counter == self.num_iterations
 
     # assign each ant a random start-node
     def create_ants(self):
+        """
+        Creates the ant population assigning starting nodes randomly to each ant.
+        """
         self.reset()
         ants = []
         for i in range(0, self.num_ants):
@@ -82,6 +135,10 @@ class AntColony:
 
     # changes the tau matrix based on evaporation/deposition 
     def global_updating_rule(self):
+        """
+        Function to carry out the evaporation and deposition updates on the graph representing the pheromones at the end
+         of each iteration.
+        """
         evaporation = 0
         deposition = 0
 

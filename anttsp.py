@@ -51,7 +51,7 @@ def main(argv):
         for i in range(0, num_nodes):
             cost_mat[i] = cost_mat[i][0:num_nodes]
 
-    #print cost_mat
+    # print cost_mat
 
     try:
         graph = AntGraph(num_nodes, cost_mat)
